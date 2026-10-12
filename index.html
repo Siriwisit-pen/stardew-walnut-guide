@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="รายการ Golden Walnut ครบทั้ง 130 ลูกบนเกาะขิง Stardew Valley พร้อมวิธีหาแบบละเอียด">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>คู่มือล่า Golden Walnut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky progress bar over a single column of zone sections, each a list of checkable finds */
+:root{
+  --bg:#F2F4EF;
+  --surface:#FFFFFF;
+  --surface-2:#EAEEE6;
+  --fg:#231F19;
+  --muted:#6E685C;
+  --line:#DCE1D5;
+  --gold:#A96F12;
+  --gold-soft:#F5E6C8;
+  --on-gold:#FFFFFF;
+  --jungle:#2C6A4E;
+  --lava:#B4452A;
+  --font-display:"Kanit","Trebuchet MS",sans-serif;
+  --font-body:"IBM Plex Sans Thai","Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13100D;
+    --surface:#1D1915;
+    --surface-2:#262019;
+    --fg:#EDE6D9;
+    --muted:#9A9082;
+    --line:#2F281F;
+    --gold:#E2A33A;
+    --gold-soft:#3A2D14;
+    --on-gold:#1A1309;
+    --jungle:#5BB486;
+    --lava:#E07450;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13100D;
+  --surface:#1D1915;
+  --surface-2:#262019;
+  --fg:#EDE6D9;
+  --muted:#9A9082;
+  --line:#2F281F;
+  --gold:#E2A33A;
+  --gold-soft:#3A2D14;
+  --on-gold:#1A1309;
+  --jungle:#5BB486;
+  --lava:#E07450;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-body);
+  font-size:15px;
+  line-height:1.65;
+}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+
+/* ---- header ---- */
+.masthead{padding-block:34px 18px}
+.eyebrow{
+  font-family:var(--font-display);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 6px
+}
+h1{
+  font-family:var(--font-display);font-weight:600;
+  font-size:clamp(28px,6vw,42px);line-height:1.15;margin:0;
+  text-wrap:balance;
+}
+.sub{color:var(--muted);margin:10px 0 0;max-width:62ch}
+
+.bar{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:5;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+  padding-block:10px;
+  margin-bottom:20px;
+}
+.bar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.count{
+  font-family:var(--font-display);font-weight:600;
+  font-size:22px;font-variant-numeric:tabular-nums;white-space:nowrap
+}
+.count em{font-style:normal;color:var(--gold)}
+.count small{font-size:13px;color:var(--muted);font-weight:500}
+.track{flex:1 1 180px;min-width:0;height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.fill{height:100%;width:0;background:var(--gold);transition:width .3s ease}
+.reset{
+  font-family:var(--font-body);font-size:12.5px;color:var(--muted);
+  background:none;border:1px solid var(--line);border-radius:99px;
+  padding:5px 12px;cursor:pointer
+}
+.reset:hover{color:var(--fg);border-color:var(--muted)}
+
+/* ---- filters ---- */
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip{
+  font-family:var(--font-body);font-size:12.5px;
+  background:var(--surface);color:var(--muted);
+  border:1px solid var(--line);border-radius:99px;
+  padding:5px 12px;cursor:pointer;white-space:nowrap
+}
+.chip[aria-pressed="true"]{background:var(--gold);color:var(--on-gold);border-color:var(--gold);font-weight:500}
+
+/* ---- zones ---- */
+.zone{margin-bottom:30px}
+.zone-head{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding-bottom:8px;border-bottom:2px solid var(--fg);margin-bottom:0
+}
+.zone-head h2{
+  font-family:var(--font-display);font-weight:600;font-size:19px;margin:0;flex:1 1 auto;min-width:0
+}
+.zone-tally{
+  font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap
+}
+.zone-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+
+ul.finds{list-style:none;margin:0;padding:0}
+li.find{
+  display:grid;
+  grid-template-columns:22px 40px 1fr;
+  gap:12px;
+  align-items:start;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+}
+li.find.done .ftitle,li.find.done .fhow{opacity:.45}
+li.find.done .ftitle{text-decoration:line-through}
+input[type=checkbox]{
+  width:19px;height:19px;margin:3px 0 0;accent-color:var(--gold);cursor:pointer;flex:none
+}
+.nut{
+  font-family:var(--font-display);font-weight:600;font-size:15px;
+  font-variant-numeric:tabular-nums;
+  color:var(--gold);background:var(--gold-soft);
+  border-radius:7px;text-align:center;padding:2px 0;margin-top:1px;
+  white-space:nowrap
+}
+.body{min-width:0}
+.ftitle{font-weight:600;display:block}
+.tag{
+  display:inline-block;font-size:11px;letter-spacing:.04em;
+  padding:1px 7px;border-radius:5px;margin-inline-start:7px;
+  background:var(--surface-2);color:var(--muted);vertical-align:1px;
+  font-weight:500;white-space:nowrap
+}
+.tag.q{color:var(--jungle)}
+.tag.r{color:var(--lava)}
+.fhow{color:var(--muted);font-size:13.5px;margin:2px 0 0}
+.fhow b{color:var(--fg);font-weight:600}
+
+/* ---- callouts ---- */
+.note{
+  background:var(--surface);border:1px solid var(--line);
+  border-inline-start:3px solid var(--gold);
+  border-radius:10px;padding:14px 16px;margin:0 0 22px
+}
+.note h3{font-family:var(--font-display);font-weight:600;font-size:15px;margin:0 0 5px}
+.note p{margin:0;font-size:13.5px;color:var(--muted)}
+.note p+p{margin-top:7px}
+.note b{color:var(--fg)}
+.note.warn{border-inline-start-color:var(--lava)}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13.5px;padding:14px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Ginger Island · 130 ลูก</p>
+    <h1>คู่มือล่า Golden Walnut</h1>
+    <p class="sub">ทุกจุดบนเกาะขิง พร้อมวิธีหาแบบละเอียด ติ๊กเก็บความคืบหน้าได้ — ตัวเลขบันทึกไว้ในเครื่องคุณเอง ปิดแล้วเปิดใหม่ก็ยังอยู่</p>
+  </header>
+
+  <div class="bar">
+    <div class="bar-row">
+      <div class="count"><em id="got">0</em> <small>/ 130 ลูก</small></div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <button class="reset" id="reset" type="button">ล้างทั้งหมด</button>
+    </div>
+    <div class="filters" id="filters"></div>
+  </div>
+
+  <div class="note warn">
+    <h3>เล่นหลายคน — วอลนัทนับรวมกันทั้งเซิร์ฟเวอร์</h3>
+    <p>ไม่ใช่ต่างคนต่างเก็บ ใครเก็บก็เข้ากองกลางหมด ลูกที่เพื่อนเก็บไปแล้วคุณจะไม่เจออีก <b>คุยกับเพื่อนก่อนว่าเก็บได้กี่ลูกแล้ว</b> จะได้ไม่เดินหาซ้ำที่เดิม</p>
+  </div>
+
+  <div class="note">
+    <h3>ยอดสะสมไม่ลดเวลาใช้จ่าย</h3>
+    <p>ตัวนับมีสองตัวแยกกัน: <b>ยอดเคยเก็บได้</b> (ขึ้นอย่างเดียว) กับ <b>ยอดคงเหลือในมือ</b> จ่ายให้นกแก้วไปเท่าไหร่ ยอดสะสมก็ไม่ลด</p>
+    <p>แปลว่า <b>ใช้ปลดล็อกได้เต็มที่เลย ไม่ต้องกั๊ก</b> ประตู Qi's Walnut Room ที่ต้องการ 100 ลูกยังเปิดได้ตามปกติ</p>
+  </div>
+
+  <main id="zones"></main>
+
+  <div class="note" style="margin-top:28px">
+    <h3>ทางลัดสุดท้าย — Golden Joja Parrot</h3>
+    <p>นกแก้วตัวหนึ่งอยู่<b>ทางตะวันตกของภูเขาไฟ</b> รับซื้อวอลนัทที่ยังหาไม่เจอในราคา <b>ลูกละ 10,000g</b> จ่ายแล้วนอนหนึ่งคืน วอลนัทที่เหลือทั้งหมดจะถูกเพิ่มให้เลย</p>
+    <p>ถ้ามีเงินเหลือเฟือและไม่อยากไล่หาลูกสุดท้ายๆ ที่ซ่อนโหด นี่คือทางออก</p>
+  </div>
+
+  <footer>ข้อมูลอ้างอิงจาก Stardew Valley Wiki (เกมหลัก เวอร์ชัน 1.6) · ตัวเลขที่เขียนว่า “สูงสุด” คือเพดานที่ขึ้นกับการสุ่มหรือการทำซ้ำ</footer>
+</div>
+
+<script>
+const DATA = [
+  {zone:"ทั่วเกาะ", total:6, note:"ได้ระหว่างทำอย่างอื่น ไม่ต้องตามหาเป็นจุดๆ", items:[
+    {n:1, t:"Golden Coconut", m:"สุ่ม", how:"เอา <b>Golden Coconut</b> ไปให้ <b>Clint</b> ที่ร้านช่างตีเหล็กทุบ ลูกแรกที่เขาเปิดจะได้วอลนัท"},
+    {n:5, t:"ตกปลาบนเกาะ", m:"สุ่ม", how:"ทุกครั้งที่เหวี่ยงเบ็ด<b>ที่ไหนก็ได้บนเกาะขิง</b> มีโอกาส <b>15%</b> ได้วอลนัท จนครบ 5 ลูกแล้วหยุด"},
+  ]},
+
+  {zone:"Island East", total:11, note:"โซนกระท่อมของ Leo ทางตะวันออกของเกาะ", items:[
+    {n:1, t:"พุ่มในป่า", m:"เก็บ", how:"พุ่มวอลนัทอยู่ในป่า <b>บนทางเดินไปกระท่อม Leo</b>"},
+    {n:3, t:"แท่นบูชากล้วย", m:"ปริศนา", how:"วาง <b>Banana</b> บนแท่นบูชาข้างบันไดที่ขึ้นไปกระท่อม Leo → กอริลลาจะโผล่มาให้วอลนัท 3 ลูก"},
+    {n:1, t:"ต้นไม้ในกระท่อม Leo", m:"เก็บ", how:"เข้าไปในกระท่อม Leo แล้ว<b>ฟันต้นไม้ข้างในด้วยขวาน</b>"},
+    {n:1, t:"ศาล Gem Bird", m:"เก็บ", how:"จากเชิงบันได เดินเข้า<b>ทางลับฝั่งตะวันออก</b>ไปจนถึงศาล วอลนัทอยู่<b>ทางใต้ของศาล</b>"},
+    {n:5, t:"ปริศนานกอัญมณี (Gem Birds)", m:"ปริศนา", how:"ทำปริศนา Gem Birds ให้ครบทั้ง 4 ตัว แล้วกลับมาที่ศาล"},
+  ]},
+
+  {zone:"Island West", total:52, note:"โซนใหญ่สุดของเกาะ — มีฟาร์ม ชายหาดตะวันตก ดงสไลม์เสือ และทางไปห้อง Qi", items:[
+    {n:5, t:"เก็บเกี่ยวพืชบนฟาร์มเกาะ", m:"สุ่ม", how:"พืชที่<b>ไม่ออกผลซ้ำและไม่ต้องใช้เคียว</b> เก็บด้วยมือบนฟาร์มเกาะ มีโอกาส <b>5%</b> ต่อครั้ง จนครบ 5 ลูก"},
+    {n:15, t:"กบ Gourmand", m:"ปริศนา", how:"หลังซ่อมบ้านฟาร์มเกาะแล้ว ปลูก <b>Melon → Wheat → Garlic ตามลำดับนี้เท่านั้น</b> พอโตเต็มที่ <b>เอาไปโชว์กบก่อนเก็บเกี่ยว</b> ได้ครั้งละ 5 ลูก"},
+    {n:1, t:"Journal Scrap #6", m:"ขุด", how:"ชายหาดตะวันออกเฉียงใต้ ขุดตรง<b>มุมที่หน้าผาฝั่งตะวันออกมาบรรจบหน้าผาเหนือ</b> ใกล้ต้นปาล์มโค้ง — ต้องอ่านโน้ตใบนี้ก่อน"},
+    {n:5, t:"Mussel Node", m:"สุ่ม", how:"ทุบ<b>ก้อนหอยแมลงภู่</b>ตามชายหาด โอกาส <b>10%</b> ต่อก้อน จนครบ 5 ลูก"},
+    {n:1, t:"ซากเรืออับปาง", m:"เก็บ", how:"ชายหาดตะวันตกเฉียงใต้ เข้าซากเรือทาง<b>ทางลับที่มุมตะวันตก</b>ของตัวเรือ วอลนัทอยู่บนต้นไม้ข้างใน"},
+    {n:1, t:"ตีตัวตุ่น (Whack-a-mole)", m:"ปริศนา", how:"ชายหาดตะวันออกเฉียงใต้ <b>ปิดรูให้เหลือรูเดียว</b>แล้วตีตัวตุ่นด้วยขวาน จอบ หรือบัวรดน้ำ — <b>บัวที่อัปเกรดแล้วตีได้เลยไม่ต้องปิดรู</b>"},
+    {n:1, t:"สามเหลี่ยมปลาดาวน้ำเงิน", m:"ขุด", how:"ขุด<b>กลางสามเหลี่ยม</b>ที่เกิดจากปลาดาวสีน้ำเงิน บนชายหาดทางใต้ของฟาร์ม"},
+    {n:1, t:"ข้าวหลามตัดปลาดาว", m:"ขุด", how:"ขุด<b>กลางรูปข้าวหลามตัด</b>ที่เกิดจากปลาดาว ใกล้แอ่งน้ำขึ้นน้ำลง — อาจมีหินทับบางส่วน ทุบออกก่อน"},
+    {n:1, t:"กากบาทบนทราย", m:"ขุด", how:"ขุด<b>กลางเครื่องหมาย X</b> บนทรายในบริเวณแอ่งน้ำขึ้นน้ำลง"},
+    {n:1, t:"ข้าวหลามตัดรอยบุ๋ม", m:"ขุด", how:"ขุด<b>กลางรูปข้าวหลามตัดของรอยบุ๋มบนทราย</b> ทางตะวันตกเฉียงใต้ของแอ่งน้ำ ใกล้ทะเล"},
+    {n:1, t:"ต้นมะพร้าวริมบ่อ", m:"เก็บ", how:"วอลนัทอยู่<b>หลังต้นมะพร้าว</b>ข้างบ่อน้ำทางตะวันตกของฟาร์ม"},
+    {n:5, t:"เควส The Pirate's Wife", m:"เควส", how:"ทำเควสให้ Birdie จนจบ จะได้วอลนัทเป็นรางวัล 5 ลูกรวด"},
+    {n:1, t:"Journal Scrap #4", m:"ขุด", how:"ขุดบนทราย<b>ทางเหนือของกระท่อม Birdie</b> ได้ <b>Quality Bobber</b> ติดมาด้วย — ต้องอ่านโน้ตใบนี้ก่อน"},
+    {n:1, t:"พุ่มชายฝั่งตะวันตก", m:"เก็บ", how:"เดินขึ้นชายฝั่งตะวันตกไปทางห้อง Qi พุ่มอยู่<b>มุมล่างขวาใกล้หน้าผา</b>"},
+    {n:1, t:"พุ่มกลางทะเล", m:"เก็บ", how:"เดินผ่านห้อง Qi ไปแล้ว<b>ลุยน้ำทะเลออกไป</b>จะเจอพุ่มวอลนัท"},
+    {n:1, t:"สไลม์ในดงเสือ", m:"สุ่ม", how:"ฆ่าสไลม์ใน <b>Tiger Slime Grove</b> มีโอกาสได้ 1 ลูก"},
+    {n:1, t:"หลังต้นมะฮอกกานี", m:"เก็บ", how:"ในดงสไลม์เสือ วอลนัทซ่อนอยู่<b>หลังต้นมะฮอกกานี</b>"},
+    {n:1, t:"วงหญ้าในดง", m:"ขุด", how:"ขุด<b>กลางวงหญ้า</b>ในดงสไลม์เสือ — มักซ่อนอยู่หลังต้นมะฮอกกานี ฟันต้นไม้ออกก่อนจะเห็น"},
+    {n:3, t:"ปริศนา Simon Says", m:"ปริศนา", how:"ถ้ำ<b>ทางเหนือของดงสไลม์เสือ</b> ทำตามลำดับไฟที่กะพริบให้ถูก"},
+    {n:1, t:"พุ่มริมหน้าผา", m:"เก็บ", how:"จากดงสไลม์เสือ เดิน<b>ไปทางตะวันออกเลียบขอบหน้าผา</b> เคลียร์หินกับหญ้าไปเรื่อยๆ พุ่มอยู่สุดทาง"},
+    {n:1, t:"พุ่มข้ามสะพาน", m:"เก็บ", how:"จากสถานี Parrot Express <b>ข้ามสะพานไปทางตะวันตก</b> พุ่มถูกกำแพงด้านใต้บังไว้บางส่วน"},
+    {n:1, t:"วงกรวดข้างสถานี", m:"ขุด", how:"ขุด<b>กลางรูปข้าวหลามตัดของกรวด</b>ทางตะวันออกของสถานี Parrot Express"},
+    {n:1, t:"พุ่มทางลับหลังสถานี", m:"เก็บ", how:"ทางตะวันออกของสถานี เดินตาม<b>ทางลับที่หักไปตะวันออกแล้วขึ้นเหนือ</b> พุ่มอยู่สุดทาง"},
+    {n:1, t:"พุ่มชะง่อนผา", m:"เก็บ", how:"ทางใต้ของสถานี เดินเลียบหน้าผา <b>โค้งไปทางตะวันออกเหนือบ้านฟาร์ม</b>"},
+  ]},
+
+  {zone:"Island North", total:30, note:"โซนภูเขาไฟและ Dig Site — รวมของนอกดันเจี้ยนทั้งหมด", items:[
+    {n:1, t:"วงหินที่บันไดทางเข้า", m:"ขุด", how:"จากบันไดทางเข้า Island North <b>เลี้ยวไปทางตะวันตก</b> ขุดกลางวงหิน"},
+    {n:1, t:"ดงลับข้างบันได", m:"เก็บ", how:"จากบันไดเดิม เดินไปทางตะวันตกเข้า<b>ทางลับ</b> จะเจอดงที่มีพุ่มวอลนัท"},
+    {n:1, t:"วงดอกไม้", m:"ขุด", how:"จากบันได ไป<b>ทางตะวันออกเฉียงเหนือ</b>ถึงพื้นหญ้า ขุดกลางวงดอกไม้"},
+    {n:1, t:"วงหินที่สอง", m:"ขุด", how:"ไปตะวันออกเฉียงเหนือ<b>แล้วเลี้ยวตะวันออก</b>ถึงพื้นหญ้าอีกจุด ขุดกลางวงหิน"},
+    {n:1, t:"หย่อมทรายผิดปกติ", m:"ขุด", how:"<b>ทางตะวันออกเฉียงใต้ของ Island Field Office</b> ขุดหย่อมทรายที่ลวดลายต่างจากรอบๆ"},
+    {n:1, t:"วงหินที่ Dig Site", m:"ขุด", how:"ขึ้น<b>บันไดด้านเหนือ</b>ของ Dig Site ขุดกลางวงหิน"},
+    {n:1, t:"พุ่มตะวันตกของ Dig Site", m:"เก็บ", how:"ขึ้นบันไดเหนือ <b>ข้ามสะพานไปทางตะวันตก</b> จะเจอต้นวอลนัท"},
+    {n:2, t:"ต้นวอลนัทตะวันออกของ Dig Site", m:"เก็บ", how:"ขึ้นบันไดเหนือ ไปทางตะวันออก<b>ผ่านทางลับในหน้าผา</b> เลยสะพานไปมีต้นวอลนัท 2 ต้น"},
+    {n:6, t:"คอลเลกชันสัตว์ใหญ่", m:"บริจาค", how:"ที่ <b>Island Field Office</b> บริจาคฟอสซิลสัตว์ใหญ่ให้ครบชุด"},
+    {n:3, t:"คอลเลกชันงู", m:"บริจาค", how:"ที่ Island Field Office บริจาคฟอสซิลงูให้ครบชุด"},
+    {n:1, t:"Mummified Frog", m:"บริจาค", how:"บริจาคกบมัมมี่ที่ Island Field Office 1 ตัว"},
+    {n:1, t:"Mummified Bat", m:"บริจาค", how:"บริจาคค้างคาวมัมมี่ 1 ตัว — <b>ได้จากการทุบหินใน Volcano Dungeon เท่านั้น</b>"},
+    {n:1, t:"สำรวจดอกไม้สีม่วง", m:"ปริศนา", how:"Professor Snail ให้นับดอกไม้สีม่วง — <b>คำตอบคือ 22</b>"},
+    {n:1, t:"สำรวจปลาดาวสีม่วง", m:"ปริศนา", how:"Professor Snail ให้นับปลาดาวสีม่วง — <b>คำตอบคือ 18</b>"},
+    {n:1, t:"พุ่มซ่อนหลังต้นไม้", m:"เก็บ", how:"<b>ทางตะวันออกเฉียงใต้ของทางเข้าภูเขาไฟ</b> ต้นวอลนัทถูกต้นไม้บังอยู่"},
+    {n:1, t:"วงทรายล้อมหิน", m:"ขุด", how:"<b>ทางตะวันออกของทางเข้าภูเขาไฟ</b> ขุดทรายที่ถูกล้อมด้วยพุ่ม 2 ต้นกับแนวหินโค้ง"},
+    {n:1, t:"ต้นไม้ยิงหนังสติ๊ก", m:"ปริศนา", how:"<b>ทางตะวันออกเฉียงเหนือของทางเข้าภูเขาไฟ</b> ใช้<b>หนังสติ๊ก (Slingshot)</b> ยิงวอลนัทให้หล่นจากต้นไม้โค้ง"},
+    {n:1, t:"Journal Scrap #10", m:"ขุด", how:"<b>ทางตะวันตกเฉียงใต้ของทางเข้าภูเขาไฟ</b> ขุดช่องที่อยู่<b>ในวงโค้งของต้นปาล์ม</b> — ต้องอ่านโน้ตใบนี้ก่อน"},
+    {n:1, t:"วงหินมุมตะวันตกเฉียงเหนือ", m:"ขุด", how:"ขุดกลางวงหินที่<b>มุมตะวันตกเฉียงเหนือสุด</b> — จุดที่ Leo ชอบมายืน"},
+    {n:1, t:"พุ่มลับตะวันตกเฉียงเหนือ", m:"เก็บ", how:"ที่มุมตะวันตกเฉียงเหนือสุด <b>เดินตะวันตกเลียบกำแพงแล้วขึ้นเหนือผ่านทางลับ</b>"},
+    {n:2, t:"เส้นทางแม่น้ำลาวา", m:"ปริศนา", how:"ที่ปากแม่น้ำของภูเขาไฟ <b>ใช้บัวรดน้ำดับลาวาทำทางไปตะวันตก แล้วลงใต้</b>ถึงชานพัก ออกทางใต้ไปพื้นที่โล่งที่มีพุ่ม 2 ต้น"},
+  ]},
+
+  {zone:"Island South", total:8, note:"โซนที่เรือจอด — บางจุดต้องสร้าง Beach Resort ก่อน", items:[
+    {n:1, t:"พุ่มบนหน้าผา", m:"เก็บ", how:"ขึ้นบันไดไป Island North <b>เลี้ยวตะวันออกแล้วลงใต้ผ่านทางลับหลังต้นไม้</b> — นกแก้วจะนับจุดนี้เป็นของ Island North"},
+    {n:1, t:"ตกปลาในแอ่งปลาดาว", m:"ปริศนา", how:"หลังสร้าง <b>Beach Resort</b> แล้ว เหวี่ยงเบ็ด<b>ครั้งแรก</b>ในแอ่งน้ำรูปปลาดาวที่ Island Southeast"},
+    {n:1, t:"ปลาดาวสีเหลือง", m:"ขุด", how:"ที่ Island Southeast ขุด<b>กลางรูปข้าวหลามตัดของปลาดาวสีเหลือง</b>"},
+    {n:5, t:"ปริศนาขลุ่ยนางเงือก", m:"ปริศนา", how:"<b>วันฝนตกเท่านั้น</b> ปรับ <b>Flute Block</b> ใต้ชุดหินบนชายหาดให้เสียงตรงกับจำนวนหินแต่ละกอง แล้ว<b>วิ่งผ่านจากซ้ายไปขวา</b> — ต้องมี Beach Resort ก่อน"},
+  ]},
+
+  {zone:"Volcano Dungeon", total:19, note:"ในดันเจี้ยนภูเขาไฟ 10 ชั้น — ส่วนใหญ่เป็นของสุ่ม เดินลงซ้ำหลายรอบได้", items:[
+    {n:17, t:"ทุบ ฆ่า และเปิดหีบในดันเจี้ยน", m:"สุ่ม", how:"แบ่งเป็น <b>ทุบหิน 5 · ฆ่าศัตรู 5 · ทุบลังโลหะ 5 · หีบธรรมดา 1 · หีบหายาก 1</b> — ทั้งหมดเป็นเพดานสูงสุด เดินซ้ำหลายรอบจนครบได้"},
+    {n:2, t:"พุ่มที่ Forge", m:"เก็บ", how:"ลงไปถึง <b>Forge</b> (ชั้นล่างสุด) มีต้นวอลนัทที่<b>ทางเข้าหนึ่งต้น ทางออกอีกหนึ่งต้น</b>"},
+  ]},
+
+  {zone:"Pirate Cove", total:4, note:"ถ้ำโจรสลัด — ต้องมี Beach Resort และไปตอนกลางคืน", items:[
+    {n:3, t:"เกมปาลูกดอก", m:"ปริศนา", how:"<b>คืนที่ฝนไม่ตก หลัง 20:00 น. เฉพาะวันเลขคู่</b> ชนะเกมปาลูกดอกกับโจรสลัด ชนะได้สูงสุด 3 ลูก"},
+    {n:1, t:"ทรายข้างถังไม้", m:"ขุด", how:"ขุดหย่อมทรายที่โผล่อยู่<b>ท่ามกลางถังไม้ทางตะวันออกของน้ำ</b>"},
+  ]},
+];
+
+const METHODS = ["ทั้งหมด","ขุด","เก็บ","ปริศนา","สุ่ม","เควส","บริจาค"];
+const KEY = "sdv-walnut-checked-v1";
+let checked = new Set();
+let filter = "ทั้งหมด";
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw) checked = new Set(JSON.parse(raw));
+  }catch(e){ /* storage unavailable — run without persistence */ }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify([...checked])); }
+  catch(e){ /* ignore */ }
+}
+
+function idFor(zi, ii){ return zi + "-" + ii; }
+
+function tagClass(m){
+  if(m === "ปริศนา" || m === "เควส") return "tag q";
+  if(m === "สุ่ม") return "tag r";
+  return "tag";
+}
+
+function render(){
+  const zones = document.getElementById("zones");
+  zones.innerHTML = "";
+  DATA.forEach((z, zi) => {
+    const visible = z.items.filter(it => filter === "ทั้งหมด" || it.m === filter);
+    if(!visible.length) return;
+
+    const sec = document.createElement("section");
+    sec.className = "zone";
+
+    const got = z.items.reduce((s, it, ii) => s + (checked.has(idFor(zi, ii)) ? it.n : 0), 0);
+
+    const head = document.createElement("div");
+    head.className = "zone-head";
+    const h2 = document.createElement("h2");
+    h2.textContent = z.zone;
+    const tally = document.createElement("span");
+    tally.className = "zone-tally";
+    tally.textContent = got + " / " + z.total + " ลูก";
+    head.append(h2, tally);
+    sec.append(head);
+
+    if(z.note && filter === "ทั้งหมด"){
+      const p = document.createElement("p");
+      p.className = "zone-note";
+      p.textContent = z.note;
+      sec.append(p);
+    }
+
+    const ul = document.createElement("ul");
+    ul.className = "finds";
+    z.items.forEach((it, ii) => {
+      if(filter !== "ทั้งหมด" && it.m !== filter) return;
+      const id = idFor(zi, ii);
+      const li = document.createElement("li");
+      li.className = "find" + (checked.has(id) ? " done" : "");
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = "nut-" + id;
+      cb.checked = checked.has(id);
+      cb.addEventListener("change", () => {
+        if(cb.checked) checked.add(id); else checked.delete(id);
+        save(); render();
+      });
+
+      const nut = document.createElement("div");
+      nut.className = "nut";
+      nut.textContent = it.n;
+
+      const body = document.createElement("div");
+      body.className = "body";
+      const lab = document.createElement("label");
+      lab.className = "ftitle";
+      lab.htmlFor = cb.id;
+      lab.textContent = it.t;
+      const tg = document.createElement("span");
+      tg.className = tagClass(it.m);
+      tg.textContent = it.m;
+      lab.append(tg);
+      const how = document.createElement("p");
+      how.className = "fhow";
+      how.innerHTML = it.how;
+      body.append(lab, how);
+
+      li.append(cb, nut, body);
+      ul.append(li);
+    });
+    sec.append(ul);
+    zones.append(sec);
+  });
+
+  if(!zones.children.length){
+    const p = document.createElement("p");
+    p.className = "empty";
+    p.textContent = "ไม่มีจุดในหมวดนี้";
+    zones.append(p);
+  }
+
+  let total = 0;
+  DATA.forEach((z, zi) => z.items.forEach((it, ii) => {
+    if(checked.has(idFor(zi, ii))) total += it.n;
+  }));
+  document.getElementById("got").textContent = total;
+  document.getElementById("fill").style.width = (total / 130 * 100) + "%";
+}
+
+function buildFilters(){
+  const box = document.getElementById("filters");
+  METHODS.forEach(m => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = m;
+    b.setAttribute("aria-pressed", String(m === filter));
+    b.addEventListener("click", () => {
+      filter = m;
+      [...box.children].forEach(c => c.setAttribute("aria-pressed", String(c.textContent === filter)));
+      render();
+    });
+    box.append(b);
+  });
+}
+
+document.getElementById("reset").addEventListener("click", () => {
+  checked.clear(); save(); render();
+});
+
+load();
+buildFilters();
+render();
+</script>
+</body>
+</html>
